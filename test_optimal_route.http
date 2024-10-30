@@ -1,0 +1,9 @@
+### Test Optimal Route API
+
+POST http://127.0.0.1:8000/optimal-route/
+Content-Type: application/json
+
+{
+  "start": "39.988997, -75.155853",
+  "finish": "34.022226, -81.013437"
+}
