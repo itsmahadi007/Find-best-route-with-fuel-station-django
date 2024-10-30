@@ -9,6 +9,7 @@ load_dotenv()
 # Initialize OpenCage Geocoder with API key
 key = os.getenv('GEO_KEY')
 geocoder = OpenCageGeocode(key)
+# get this key form https://opencagedata.com/
 
 # Function to geocode an address
 def geocode_address(address):

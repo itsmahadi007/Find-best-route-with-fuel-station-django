@@ -39,10 +39,10 @@ DEBUG=True
 DB_HOST=dev_db
 DB_NAME=best_route_db
 DB_USER=postgres
-DB_PASSWORD=<YOUR_DB_PASSWORD># also update in the docker compose file with the same value
+DB_PASSWORD=1516 # for test purposes 
 DB_PORT=5446
 
-# Secret key (Use a secure secret in production)
+# Secret key (Use any secure string like password)
 SECRET_KEY='<YOUR_SECRET_KEY>'
 
 # Redis configuration

@@ -3,7 +3,7 @@ services:
     image: postgres
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=<YOUR_DB_PASSWORD>
+      - POSTGRES_PASSWORD=1516
       - POSTGRES_DB=best_route_db
     ports:
       - "5446:5446"
