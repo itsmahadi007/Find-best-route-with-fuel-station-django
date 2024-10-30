@@ -3,6 +3,8 @@ import pandas as pd
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
+from best_route.cache import load_fuel_station_data_to_cache
+
 
 class Command(BaseCommand):
     help = "Load Fuel Station Data"
@@ -11,7 +13,7 @@ class Command(BaseCommand):
         csv_file = "csv_files/fuel_stations_with_coords_geo_location.csv"
 
         if not os.path.exists(csv_file):
-            print(f"File {csv_file} does not exist")
+            self.stdout.write(self.style.ERROR(f"File {csv_file} does not exist"))
             return
 
         try:
@@ -36,9 +38,13 @@ class Command(BaseCommand):
                 ]
                 FuelStationModel.objects.bulk_create(fuel_stations)
 
-                print(
-                    f"Successfully loaded {len(fuel_stations)} rows of fuel station data"
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        f"Successfully loaded {len(fuel_stations)} rows of fuel station data"
+                    )
                 )
+                
+                load_fuel_station_data_to_cache()
 
         except Exception as e:
-            print(f"Error loading data: {str(e)}")
+            self.stdout.write(self.style.ERROR(f"Error loading data: {str(e)}"))

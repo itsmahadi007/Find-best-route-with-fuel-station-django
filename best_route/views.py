@@ -19,16 +19,14 @@ class OptimalRouteView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
         # Get multiple routes from MapQuest Directions API
-        print("Fetching routes from MapQuest Directions API")
         route_management = RouteManagement()
-        print("Routes fetched from MapQuest Directions API")
         routes_response = route_management.fetch_route_from_mapquest(start, finish)
-        print("Routes processed")
 
         # Include the primary route and alternate routes
         route_options = [routes_response['route']]  # Primary route
         alternate_routes = routes_response['route'].get('alternateRoutes', [])
         route_options.extend([alt['route'] for alt in alternate_routes])
+        print(f"Routes found: {len(route_options)}")
         
         # Initialize variables to store the optimal solution
         optimal_total_cost = float('inf')
@@ -38,13 +36,11 @@ class OptimalRouteView(APIView):
         # Iterate over each route option
         for route_option in route_options:
             # Calculate optimal fuel stops and total cost for each route
-            print("Calculating optimal fuel stops and total cost for each route")
             optimal_stops = route_management.calculate_optimal_stops(route_option)
             if optimal_stops is None:
                 continue  # Try the next route option
 
             total_cost = route_management.calculate_total_cost(optimal_stops)
-            print("Total cost calculated")
             # Update optimal route if this one is better
             if total_cost < optimal_total_cost:
                 optimal_total_cost = total_cost

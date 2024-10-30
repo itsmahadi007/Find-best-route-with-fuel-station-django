@@ -11,5 +11,4 @@ def load_fuel_station_data_to_cache():
     cache.set("all_fuel_stations", all_fuel_stations)
     print(
         f"Successfully loaded {len(all_fuel_stations)} rows of fuel station data to cache"
-    )
-    
+    )    

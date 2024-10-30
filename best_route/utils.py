@@ -23,10 +23,12 @@ class RouteManagement:
     def get_fuel_stations_from_cache(self):
         all_fuel_stations = cache.get("all_fuel_stations")
         if all_fuel_stations:
+            print(f"Fuel stations already cached: {len(all_fuel_stations)} rows")
             return all_fuel_stations
         else:
             all_fuel_stations = FuelStationModel.objects.all()
             cache.set("all_fuel_stations", all_fuel_stations)
+            print(f"Fuel stations cached: {len(all_fuel_stations)} rows")
             return all_fuel_stations
 
     
@@ -51,8 +53,6 @@ class RouteManagement:
         miles_per_gallon = 10
         optimal_stops = []
         current_miles = 0
-        print("Calculating optimal stops...")
-
         for leg in route['legs']:
             for maneuver in leg['maneuvers']:
                 distance = maneuver['distance']  # Distance in miles
