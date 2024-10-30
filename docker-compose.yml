@@ -1,0 +1,36 @@
+services:
+  dev_db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1516
+      - POSTGRES_DB=best_route_db
+    ports:
+      - "5446:5446"
+    command: -p 5446
+    restart: always
+
+  dev_redis:
+    image: redis:7-alpine
+    ports:
+      - "6399:6399"
+    command: --port 6399
+    restart: always
+
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DJANGO_RUNNING_IN_DOCKER=True
+    env_file:
+      - .env.docker
+    depends_on:
+      - dev_db
+      - dev_redis
+    command: uvicorn backend.asgi:application --reload --reload-dir /app/backend --host 0.0.0.0 --port 8000
+    volumes:
+      - .:/app/backend
+    ports:
+      - "8000:8000"
+    restart: always
